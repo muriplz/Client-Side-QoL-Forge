@@ -3,9 +3,11 @@ package com.blockog.clientsideqol.mixins;
 import com.blockog.clientsideqol.ClientSideQoL;
 import com.mojang.authlib.minecraft.client.MinecraftClient;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.main.GameConfig;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.client.event.InputEvent;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -18,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
 
-    @Shadow public ClientEntit player;
+    @Shadow public LocalPlayer player;
 
     @Shadow @Final public GameConfig options;
     @Shadow @Nullable public  Screen currentScreen;

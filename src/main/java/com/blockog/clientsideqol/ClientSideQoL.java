@@ -1,5 +1,6 @@
 package com.blockog.clientsideqol;
 
+import com.blockog.clientsideqol.config.CSQoLConfig;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -14,6 +15,10 @@ public class ClientSideQoL {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static final String MOD_ID = "clientsideqol";
+
+    public int selectedHotbarSection = -1;
+    public CSQoLConfig config;
+
 
     private void setup(final FMLCommonSetupEvent event)
     {

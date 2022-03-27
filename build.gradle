@@ -17,6 +17,12 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 version = '1.0-RELEASE'
 group = 'com.blockog.clientsideqol' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'ClientSideQoL'
@@ -97,7 +103,7 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:6.2.57"))
+    api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.cloth_config_version}"))
 }
 
 

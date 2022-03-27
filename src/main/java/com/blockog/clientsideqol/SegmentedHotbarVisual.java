@@ -1,11 +1,16 @@
 package com.blockog.clientsideqol;
 
+import com.blockog.clientsideqol.config.CSQoLConfig;
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.DefaultClientPackResources;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
-
-import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.Objects;
 
@@ -13,18 +18,19 @@ import java.util.Objects;
 public
 class SegmentedHotbarVisual {
     private static final Identifier WIDGETS_TEXTURE = new Identifier(ClientSideQoL.MOD_ID, "widgets.png");
-    private static final MinecraftClient client = MinecraftClient.getInstance();
+    private static final Minecraft client = Minecraft.getInstance();
+
 
     public static boolean renderSegmentedHotbar(MatrixStack matrices) {
         CSQoLConfig config = ClientSideQoL.getInstance().config;
 
         if (!config.segmentedHotbarVisual || isHidden()) return false;
 
-        PlayerEntity playerEntity = (PlayerEntity) client.cameraEntity;
-        assert playerEntity != null;
-        PlayerInvWrapper inventory = playerEntity.getInventory();
-        int scaledWidthHalved = client.getWindow().getScaledWidth() / 2 - 30;
-        int scaledHeight = client.getWindow().getScaledHeight();
+        Player player = (Player) client.cameraEntity;
+        assert player != null;
+        Inventory inventory = player.getInventory();
+        int scaledWidthHalved = client.getWindow().getGuiScaledWidth() / 2 - 30;
+        int scaledHeight = client.getWindow().getGuiScaledHeight();
 
         RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
         // Draw the hotbar itself
@@ -41,7 +47,7 @@ class SegmentedHotbarVisual {
         int selectedSection = ClientSideQoL.getInstance().selectedHotbarSection;
         if (selectedSection == -1) { // Draw the regular vanilla selection box
             DrawableHelper.drawTexture(matrices,
-                    scaledWidthHalved - 66 + (inventory.selectedSlot * 20) + (4 * (inventory.selectedSlot / 3)),
+                    scaledWidthHalved - 66 + (inventory.selected * 20) + (4 * (inventory.selectedSlot / 3)),
                     scaledHeight - 23,
                     64,
                     0,
@@ -65,9 +71,9 @@ class SegmentedHotbarVisual {
         for (int slotNum = 0; slotNum < 9; slotNum++) {
             int x = scaledWidthHalved - 62 + (slotNum * 20) + (4 * (slotNum / 3));
             int y = scaledHeight - 19;
-            ItemStack itemStack = inventory.getStack(slotNum);
-            client.getItemRenderer().renderInGuiWithOverrides(itemStack, x, y);
-            client.getItemRenderer().renderGuiItemOverlay(client.textRenderer, itemStack, x, y);
+            ItemStack itemStack = inventory.getItem(slotNum);
+            client.getItemRenderer().renderGuiItem(itemStack, x, y);
+            client.getItemRenderer().renderGuiItemDecorations(client.font, itemStack, x, y);
         }
         return true;
     }
@@ -76,10 +82,10 @@ class SegmentedHotbarVisual {
         if (
                 client.interactionManager == null ||
                         Objects.requireNonNull(client.player).isSpectator() ||
-                        client.options.hudHidden
+                        client.options.hideGui
         ) return true;
 
-        PlayerEntity player = (PlayerEntity) client.cameraEntity;
+        Player player = (Player) client.cameraEntity;
         return player == null || !player.isAlive() || player.playerScreenHandler == null;
     }
 }
