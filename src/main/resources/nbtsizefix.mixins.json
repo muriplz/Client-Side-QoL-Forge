@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.nbtsizefix.kryeit.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "nbtsizefix.refmap.json",
+  "mixins": [
+    "CompressionDecoderMixin",
+    "PacketInflaterMixin",
+    "SCustomPayloadPacketMixin"
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}
