@@ -89,12 +89,15 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
 
+    maven { url "https://maven.shedaniel.me/" }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.1-39.0.64'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:6.2.57"))
 }
 
 
