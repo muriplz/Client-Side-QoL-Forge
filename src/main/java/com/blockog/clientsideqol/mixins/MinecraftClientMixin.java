@@ -1,31 +1,33 @@
-package net.blockog.clientsideqol.mixin;
+package com.blockog.clientsideqol.mixins;
 
-import net.blockog.clientsideqol.ClientSideQoL;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.KeyBinding;
+import com.blockog.clientsideqol.ClientSideQoL;
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.main.GameConfig;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraftforge.client.event.InputEvent;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import net.minecraft.util.Hand;
+
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
 
-    @Shadow public ClientPlayerEntity player;
-    @Shadow @Final public GameOptions options;
-    @Shadow @Nullable public Screen currentScreen;
+    @Shadow public ClientEntit player;
+
+    @Shadow @Final public GameConfig options;
+    @Shadow @Nullable public  Screen currentScreen;
 
     @Redirect(method = "handleInputEvents",
         at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/option/KeyBinding;wasPressed()Z",
             ordinal = 2))
-    private boolean handleHotbarSlotSelection(KeyBinding keyBinding) {
+    private boolean handleHotbarSlotSelection(InputEvent.KeyInputEvent keyBinding) {
         if (!keyBinding.wasPressed())
             return false;
         if (player.isSpectator())

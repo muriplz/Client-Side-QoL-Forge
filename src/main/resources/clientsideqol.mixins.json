@@ -1,12 +1,11 @@
 {
   "required": true,
-  "package": "com.nbtsizefix.kryeit.mixins",
+  "package": "com.blockog.clientsideqol.mixins",
   "compatibilityLevel": "JAVA_17",
   "refmap": "nbtsizefix.refmap.json",
   "mixins": [
-    "CompressionDecoderMixin",
-    "PacketInflaterMixin",
-    "SCustomPayloadPacketMixin"
+    "MinecraftClientMixin",
+    "SHVMixin"
   ],
   "client": [
   ],

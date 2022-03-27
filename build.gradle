@@ -18,8 +18,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = '1.0-RELEASE'
-group = 'com.muriplz.nbtsizefix' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'NBTsizeFIX'
+group = 'com.blockog.clientsideqol' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'ClientSideQoL'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -71,7 +71,7 @@ minecraft {
             args '--mod', "${modid}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                nbtsizefix {
+                clientsideqol {
                     source sourceSets.main
                 }
             }
